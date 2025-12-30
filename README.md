@@ -1,70 +1,180 @@
-# Getting Started with Create React App
+# Daryl's Portfolio Website
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A modern, premium dark-themed portfolio website built with React and TailwindCSS, featuring smooth animations and responsive design.
 
-## Available Scripts
+![Portfolio Preview](https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&h=600&fit=crop)
 
-In the project directory, you can run:
+## ✨ Features
 
-### `npm start`
+- **Modern Dark Theme** - Sleek dark design with electric blue (#1F77FF) and gold (#FFD700) accents
+- **Smooth Animations** - Powered by Framer Motion for fade-ins, hover effects, and scroll-triggered animations
+- **Fully Responsive** - Optimized for desktop, tablet, and mobile devices
+- **Interactive Sections**:
+  - Hero section with animated particles and gradient text
+  - About section with profile image and stats
+  - Skills showcase with hover effects
+  - Project gallery with lightbox functionality
+  - Animated timeline for experience
+  - Education cards with achievements
+  - Contact form with validation
+- **SEO Optimized** - Proper meta tags and semantic HTML
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## 🛠️ Technology Stack
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- **React** - UI library
+- **TailwindCSS** - Utility-first CSS framework
+- **Framer Motion** - Animation library
+- **React Icons** - Icon library
+- **Yet Another React Lightbox** - Image gallery/lightbox
+- **Create React App** - Build tooling
 
-### `npm test`
+## 📦 Installation
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/yourusername/daryl-portfolio.git
+   cd daryl-portfolio
+   ```
 
-### `npm run build`
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+3. **Start the development server**
+   ```bash
+   npm start
+   ```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+   The site will open at [http://localhost:3000](http://localhost:3000)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## 🚀 Build for Production
 
-### `npm run eject`
+Create an optimized production build:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```bash
+npm run build
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+The build folder will contain the production-ready files.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## 📁 Project Structure
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+```
+daryl-portfolio/
+├── public/
+│   ├── index.html
+│   └── favicon.ico
+├── src/
+│   ├── components/
+│   │   ├── ui/
+│   │   │   ├── Button.jsx
+│   │   │   ├── Card.jsx
+│   │   │   └── SectionTitle.jsx
+│   │   ├── sections/
+│   │   │   ├── Hero.jsx
+│   │   │   ├── About.jsx
+│   │   │   ├── Skills.jsx
+│   │   │   ├── Projects.jsx
+│   │   │   ├── Experience.jsx
+│   │   │   ├── Education.jsx
+│   │   │   └── Contact.jsx
+│   │   ├── Navbar.jsx
+│   │   └── Footer.jsx
+│   ├── hooks/
+│   │   └── useScrollAnimation.js
+│   ├── utils/
+│   │   └── animations.js
+│   ├── App.js
+│   └── index.css
+├── tailwind.config.js
+├── postcss.config.js
+└── package.json
+```
 
-## Learn More
+## 🎨 Customization
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Colors
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Edit `tailwind.config.js` to customize the color scheme:
 
-### Code Splitting
+```javascript
+colors: {
+  primary: '#1F77FF',    // Electric blue
+  secondary: '#FFD700',  // Gold
+  dark: '#0F111A',       // Background
+}
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### Content
 
-### Analyzing the Bundle Size
+Update the content in each section component:
+- **Hero**: Edit `src/components/sections/Hero.jsx`
+- **About**: Edit `src/components/sections/About.jsx`
+- **Skills**: Edit `src/components/sections/Skills.jsx`
+- **Projects**: Edit `src/components/sections/Projects.jsx`
+- **Experience**: Edit `src/components/sections/Experience.jsx`
+- **Education**: Edit `src/components/sections/Education.jsx`
+- **Contact**: Edit `src/components/sections/Contact.jsx`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### Images
 
-### Making a Progressive Web App
+Replace placeholder images with your own:
+- Profile image in About section
+- Project thumbnails in Projects section
+- Update image URLs in respective component files
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## 🌐 Deployment
 
-### Advanced Configuration
+### Deploy to Netlify
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+1. Build the project: `npm run build`
+2. Drag and drop the `build` folder to [Netlify Drop](https://app.netlify.com/drop)
 
-### Deployment
+Or use Netlify CLI:
+```bash
+npm install -g netlify-cli
+netlify deploy --prod
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+### Deploy to Vercel
 
-### `npm run build` fails to minify
+1. Install Vercel CLI: `npm install -g vercel`
+2. Run: `vercel`
+3. Follow the prompts
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Or connect your GitHub repository to Vercel for automatic deployments.
+
+## 📱 Responsive Breakpoints
+
+- **Mobile**: < 768px
+- **Tablet**: 768px - 1024px
+- **Desktop**: > 1024px
+
+## 🎯 Performance
+
+- Lazy loading for images
+- Optimized animations with Framer Motion
+- Minimal bundle size with TailwindCSS purging
+- Fast page load times
+
+## 📄 License
+
+This project is open source and available under the [MIT License](LICENSE).
+
+## 👤 Author
+
+**Daryl**
+- LinkedIn: [Your LinkedIn](https://linkedin.com)
+- GitHub: [Your GitHub](https://github.com)
+- Email: daryl@example.com
+
+## 🙏 Acknowledgments
+
+- Design inspiration from modern portfolio websites
+- Icons from [React Icons](https://react-icons.github.io/react-icons/)
+- Images from [Unsplash](https://unsplash.com)
+
+---
+
+Made with ❤️ by Daryl
