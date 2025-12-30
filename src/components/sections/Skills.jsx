@@ -17,7 +17,6 @@ import {
     SiDocker,
     SiAmazonwebservices,
     SiGit,
-    SiExpress,
 } from 'react-icons/si';
 import SectionTitle from '../ui/SectionTitle';
 import Card from '../ui/Card';
