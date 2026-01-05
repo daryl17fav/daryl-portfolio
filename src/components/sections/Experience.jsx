@@ -7,7 +7,7 @@ const Experience = () => {
     const experiences = [
         {
             id: 1,
-            year: 'Oct 2025 - Present',
+            year: 'Oct 2025 - Jan 2026',
             role: 'Mobile Developer',
             company: 'Monniz',
             description: 'Developing and maintaining mobile applications using Flutter and Dart. Collaborating with cross-functional teams to implement new features.',
@@ -44,74 +44,78 @@ const Experience = () => {
     ];
 
     return (
-        <section id="experience" className="py-20">
+        <section id="experience" className="py-20 overflow-hidden">
             <div className="container mx-auto px-6">
                 <SectionTitle subtitle="My professional journey">
                     Experience
                 </SectionTitle>
 
-                <div className="max-w-4xl mx-auto">
+                <div className="relative max-w-6xl mx-auto mt-16">
+                    {/* Central Timeline Line (Desktop) */}
+                    <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-0.5 bg-primary/30 transform md:-translate-x-1/2"></div>
+
                     {experiences.map((exp, index) => (
-                        <motion.div
-                            key={exp.id}
-                            className="relative pl-8 md:pl-32 pb-12 last:pb-0"
-                            initial="hidden"
-                            whileInView="visible"
-                            viewport={{ once: true }}
-                            variants={fadeUp}
-                            transition={{ delay: index * 0.2 }}
-                        >
-                            {/* Timeline Line */}
-                            {index !== experiences.length - 1 && (
-                                <div className="absolute left-[11px] md:left-[107px] top-8 w-0.5 h-full bg-primary/30"></div>
-                            )}
-
-                            {/* Timeline Dot */}
+                        <div key={exp.id} className="relative mb-16 last:mb-0">
                             <motion.div
-                                className="absolute left-0 md:left-24 top-0 w-6 h-6 bg-primary rounded-full border-4 border-bg-default dark:border-bg-dark shadow-lg shadow-primary/50"
-                                whileHover={{ scale: 1.5, boxShadow: '0 0 20px rgba(31, 119, 255, 0.8)' }}
-                            ></motion.div>
-
-                            {/* Year Badge */}
-                            <div className="hidden md:block absolute left-0 top-0 text-text-secondary font-semibold">
-                                {exp.year}
-                            </div>
-
-                            {/* Content Card */}
-                            <motion.div
-                                className="bg-bg-paper dark:bg-bg-paper-dark rounded-xl p-6 shadow-md hover:shadow-lg hover:shadow-primary/20 transition-all duration-300"
-                                whileHover={{ x: 10 }}
+                                className={`flex flex-col md:flex-row items-center w-full ${index % 2 === 0 ? 'md:flex-row-reverse' : ''
+                                    }`}
+                                initial="hidden"
+                                whileInView="visible"
+                                viewport={{ once: true }}
+                                variants={fadeUp}
+                                transition={{ delay: index * 0.2 }}
                             >
-                                <div className="md:hidden text-primary font-semibold mb-2">
-                                    {exp.year}
+                                {/* Spacer for opposite side on Desktop */}
+                                <div className="hidden md:block w-1/2" />
+
+                                {/* Timeline Dot */}
+                                <div className="absolute left-4 md:left-1/2 w-4 h-4 rounded-full bg-primary border-4 border-bg-default dark:border-bg-dark transform -translate-x-1/2 z-10 shadow-[0_0_10px_rgba(31,119,255,0.5)] bg-bg-default dark:bg-bg-dark">
+                                    <div className="w-full h-full bg-primary rounded-full animate-pulse"></div>
                                 </div>
 
-                                <h3 className="text-2xl font-bold mb-2 text-text-primary dark:text-text-primary-dark">
-                                    {exp.role}
-                                </h3>
+                                {/* Content Side */}
+                                <div className={`w-full md:w-1/2 pl-12 md:pl-0 ${index % 2 === 0 ? 'md:pr-12 md:text-right' : 'md:pl-12 md:text-left'
+                                    }`}>
+                                    {/* Date - Positioned above card */}
+                                    <div className={`text-lg font-bold text-primary mb-2 ${index % 2 === 0 ? 'md:text-right' : 'md:text-left'
+                                        }`}>
+                                        {exp.year}
+                                    </div>
 
-                                <h4 className="text-lg text-primary mb-4">
-                                    {exp.company}
-                                </h4>
+                                    <motion.div
+                                        className="bg-bg-paper dark:bg-bg-paper-dark rounded-xl p-6 shadow-md hover:shadow-lg hover:shadow-primary/20 transition-all duration-300 border border-gray-100 dark:border-gray-800"
+                                        whileHover={{ y: -5 }}
+                                    >
 
-                                <p className="text-text-secondary dark:text-text-secondary-dark mb-4">
-                                    {exp.description}
-                                </p>
 
-                                {/* Achievements */}
-                                <div className="space-y-2">
-                                    <p className="text-sm font-semibold text-text-primary dark:text-text-primary-dark">Key Achievements:</p>
-                                    <ul className="space-y-1">
-                                        {exp.achievements.map((achievement, i) => (
-                                            <li key={i} className="text-text-secondary dark:text-text-secondary-dark text-sm flex items-start">
-                                                <span className="text-secondary mr-2">▸</span>
-                                                {achievement}
-                                            </li>
-                                        ))}
-                                    </ul>
+                                        <h3 className="text-xl font-bold mb-1 text-text-primary dark:text-text-primary-dark">
+                                            {exp.role}
+                                        </h3>
+
+                                        <h4 className="text-md text-text-secondary dark:text-text-secondary-dark font-medium mb-4">
+                                            {exp.company}
+                                        </h4>
+
+                                        <p className="text-text-secondary dark:text-text-secondary-dark mb-4 text-sm leading-relaxed">
+                                            {exp.description}
+                                        </p>
+
+                                        {/* Achievements */}
+                                        <div className="space-y-2">
+                                            <p className="text-xs font-bold uppercase tracking-wider text-text-primary dark:text-text-primary-dark opacity-80">Key Achievements:</p>
+                                            <ul className={`space-y-1 ${index % 2 === 0 ? 'md:items-end' : 'md:items-start'} flex flex-col`}>
+                                                {exp.achievements.map((achievement, i) => (
+                                                    <li key={i} className="text-text-secondary dark:text-text-secondary-dark text-sm inline-flex items-center gap-2">
+                                                        <span className="text-primary text-xs">●</span>
+                                                        {achievement}
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    </motion.div>
                                 </div>
                             </motion.div>
-                        </motion.div>
+                        </div>
                     ))}
                 </div>
             </div>

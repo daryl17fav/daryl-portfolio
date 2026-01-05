@@ -48,7 +48,7 @@ const Navbar = ({ theme, toggleTheme }) => {
                     className="text-2xl font-bold text-text-primary dark:text-text-primary-dark"
                     whileHover={{ scale: 1.05 }}
                 >
-                    <img src="/logo.png" alt="Logo" className="h-12 w-auto object-contain" />
+                    <img src="/logo2.png" alt="Logo" className="h-16 w-auto object-contain" />
                 </motion.div>
 
                 {/* Desktop Navigation */}

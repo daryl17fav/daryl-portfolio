@@ -61,7 +61,7 @@ const Skills = () => {
                             key={skill.name}
                             variants={staggerItem}
                         >
-                            <Card className="text-center group cursor-pointer">
+                            <Card className="text-center group cursor-pointer h-full flex flex-col items-center justify-center">
                                 <motion.div
                                     className="text-6xl mb-4 mx-auto"
                                     style={{ color: skill.color }}

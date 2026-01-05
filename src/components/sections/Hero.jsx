@@ -86,12 +86,12 @@ const Hero = () => {
                         variants={staggerItem}
                         className="flex flex-col sm:flex-row gap-4 justify-center mb-12"
                     >
-                        <a href="/daryl-cv.pdf" download="daryl-cv.pdf" className="no-underline">
-                            <Button variant="primary" icon={<HiDownload />}>
+                        <a href="/daryl-cv.pdf" download="daryl-cv.pdf" className="no-underline w-full sm:w-auto">
+                            <Button variant="primary" icon={<HiDownload />} className="w-full justify-center">
                                 Download CV
                             </Button>
                         </a>
-                        <Button variant="outline" icon={<HiMail />} onClick={scrollToContact}>
+                        <Button variant="outline" icon={<HiMail />} onClick={scrollToContact} className="w-full sm:w-auto justify-center">
                             Contact Me
                         </Button>
                     </motion.div>
