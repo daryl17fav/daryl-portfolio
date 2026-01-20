@@ -86,7 +86,7 @@ const Hero = () => {
                         variants={staggerItem}
                         className="flex flex-col sm:flex-row gap-4 justify-center mb-12"
                     >
-                        <a href="/daryl-cv.pdf" download="daryl-cv.pdf" className="no-underline w-full sm:w-auto">
+                        <a href="/daryll-cv.pdf" download="daryll-cv.pdf" className="no-underline w-full sm:w-auto">
                             <Button variant="primary" icon={<HiDownload />} className="w-full justify-center">
                                 Download CV
                             </Button>
