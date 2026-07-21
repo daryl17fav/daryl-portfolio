@@ -174,7 +174,7 @@ const PillarCard = ({ pillar, index }) => {
                     </h3>
                     <p className="font-mono text-[11px] tracking-widest mb-3"
                         style={{ color: pillar.accent, opacity: 0.7 }}>
-                        // {pillar.subtitle}
+                        {'// '}{pillar.subtitle}
                     </p>
                     <p className="text-[#6B7280] text-sm leading-relaxed">
                         {pillar.description}

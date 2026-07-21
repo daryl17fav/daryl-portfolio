@@ -157,7 +157,7 @@ const Experience = () => {
                                     {/* Achievements */}
                                     <div className="space-y-2 border-t border-white/[0.05] pt-4">
                                         <p className="font-mono text-[10px] uppercase tracking-widest text-[#00E5FF]/40 mb-3">
-                                            // Key Achievements
+                                            {'// Key Achievements'}
                                         </p>
                                         <ul className="space-y-1.5">
                                             {exp.achievements.map((ach, i) => (

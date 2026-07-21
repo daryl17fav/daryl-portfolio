@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { motion, AnimatePresence, useMotionValue, useSpring } from 'framer-motion';
+import { motion, useMotionValue, useSpring } from 'framer-motion';
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 const HERO_NAME     = 'MUAIKEI DARYL FAVOUR M.I';
@@ -179,7 +179,7 @@ const Hero = () => {
         {/* Divider */}
         <motion.div variants={item} className="flex items-center gap-4 justify-center mb-12">
           <div className="h-px w-16 md:w-28" style={{ background: 'rgba(0,229,255,0.12)' }} />
-          <span className="font-mono text-[10px] text-[#00E5FF]/25 tracking-[0.4em]">// PORTFOLIO_OS v2.0</span>
+          <span className="font-mono text-[10px] text-[#00E5FF]/25 tracking-[0.4em]">{'// PORTFOLIO_OS v2.0'}</span>
           <div className="h-px w-16 md:w-28" style={{ background: 'rgba(0,229,255,0.12)' }} />
         </motion.div>
 

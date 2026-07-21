@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ExternalLink, Eye, ChevronDown, ChevronUp } from 'lucide-react';
+import { Eye, ChevronDown, ChevronUp } from 'lucide-react';
 import { gsap } from 'gsap';
 import Lightbox from 'yet-another-react-lightbox';
 import 'yet-another-react-lightbox/styles.css';
@@ -197,7 +197,7 @@ const Projects = () => {
                                                 {project.title}
                                             </h4>
                                             <p className="text-[#00E5FF]/60 font-mono text-[10px] tracking-widest uppercase mt-0.5">
-                                                // {project.subtitle}
+                                                {'// '}{project.subtitle}
                                             </p>
                                         </div>
 
@@ -220,7 +220,7 @@ const Projects = () => {
                                         {/* Problem */}
                                         <div className="mb-4">
                                             <p className="font-mono text-[9px] uppercase tracking-widest text-[#6B7280] mb-1">
-                                                // The Problem
+                                                {'// The Problem'}
                                             </p>
                                             <p className="text-[#6B7280] text-xs leading-relaxed">
                                                 {project.problem}
@@ -260,7 +260,7 @@ const Projects = () => {
                                             {/* Impact */}
                                             <div className={project.contributions ? 'mt-4' : ''}>
                                                 <p className="font-mono text-[9px] uppercase tracking-widest text-[#00E5FF]/40 mb-1">
-                                                    // The Impact
+                                                    {'// The Impact'}
                                                 </p>
                                                 <p className="text-[#888888] text-xs leading-relaxed font-mono">
                                                     &gt; {project.impact}
