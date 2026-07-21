@@ -181,7 +181,7 @@ const Navbar = () => {
           >
             <div className="flex flex-col p-4 gap-1">
               <p className="font-mono text-[10px] text-[#00E5FF]/25 tracking-widest mb-3 border-b border-white/[0.04] pb-2">
-                // NAVIGATION_MENU :: LOADED
+                {'// NAVIGATION_MENU :: LOADED'}
               </p>
               {navLinks.map((link, i) => (
                 <motion.button

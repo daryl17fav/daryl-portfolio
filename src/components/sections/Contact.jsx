@@ -70,7 +70,7 @@ const Contact = () => {
                         {/* Contact rows */}
                         <div className="space-y-5">
                             <p className="font-mono text-[10px] uppercase tracking-[0.35em] text-[#00E5FF]/40 mb-5">
-                                // Contact_Info
+                                {'// Contact_Info'}
                             </p>
                             {contactInfo.map(info => (
                                 <div key={info.label} className="flex items-center gap-4 group">
@@ -90,7 +90,7 @@ const Contact = () => {
                         {/* Social icons */}
                         <div>
                             <p className="font-mono text-[10px] uppercase tracking-[0.35em] text-[#00E5FF]/40 mb-5">
-                                // Connect
+                                {'// Connect'}
                             </p>
                             <motion.div
                                 className="flex gap-3"
@@ -129,7 +129,7 @@ const Contact = () => {
                             {/* Name */}
                             <div>
                                 <label className="block font-mono text-[10px] tracking-[0.35em] text-[#00E5FF]/50 uppercase mb-3">
-                                    // Name
+                                    {'// Name'}
                                 </label>
                                 <input
                                     type="text"
@@ -148,7 +148,7 @@ const Contact = () => {
                             {/* Email */}
                             <div>
                                 <label className="block font-mono text-[10px] tracking-[0.35em] text-[#00E5FF]/50 uppercase mb-3">
-                                    // Email
+                                    {'// Email'}
                                 </label>
                                 <input
                                     type="email"
@@ -167,7 +167,7 @@ const Contact = () => {
                             {/* Message */}
                             <div>
                                 <label className="block font-mono text-[10px] tracking-[0.35em] text-[#00E5FF]/50 uppercase mb-3">
-                                    // Message
+                                    {'// Message'}
                                 </label>
                                 <textarea
                                     name="message"

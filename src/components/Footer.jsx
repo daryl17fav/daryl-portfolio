@@ -23,7 +23,7 @@ const Footer = () => {
 
                     {/* Copyright */}
                     <p className="font-mono text-[11px] text-[#6B7280] tracking-widest">
-                        <span className="text-[#00E5FF]/40">// </span>
+                        <span className="text-[#00E5FF]/40">{'// '}</span>
                         © 2025 Daryl Favour. All rights reserved.
                     </p>
 

@@ -88,7 +88,7 @@ const Education = () => {
                             {/* Highlights */}
                             <div className="border-t border-white/[0.05] pt-4 space-y-1.5">
                                 <p className="font-mono text-[10px] uppercase tracking-widest text-[#00E5FF]/35 mb-3">
-                                    // Highlights
+                                    {'// Highlights'}
                                 </p>
                                 {edu.highlights.map((h, i) => (
                                     <div key={i} className="flex items-center gap-3 text-[#6B7280] text-sm">
