@@ -1,10 +1,12 @@
+/* ── Google Fonts ─────────────────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
-
-* {
+/* ── Reset ──────────────────────────────────────────────────────────────────── */
+*, *::before, *::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -12,105 +14,151 @@
 
 html {
   scroll-behavior: smooth;
+  color-scheme: dark;
 }
 
-
+/* ── Base ───────────────────────────────────────────────────────────────────── */
 @layer base {
   body {
-    @apply bg-bg-default text-text-primary dark:bg-bg-dark dark:text-text-primary-dark transition-colors duration-300;
+    background-color: #050505;
+    color: #F0F0F0;
+    font-family: 'Space Grotesk', system-ui, sans-serif;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 }
 
-body {
-  font-family: 'Inter', sans-serif;
-  overflow-x: hidden;
-}
-
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 10px;
-}
-
-::-webkit-scrollbar-track {
-  background: #0B0D14;
-}
-
+/* ── Scrollbar ──────────────────────────────────────────────────────────────── */
+::-webkit-scrollbar       { width: 5px; }
+::-webkit-scrollbar-track { background: #050505; }
 ::-webkit-scrollbar-thumb {
-  background: #1F77FF;
-  border-radius: 5px;
+  background: rgba(0, 229, 255, 0.25);
+  border-radius: 0;
 }
+::-webkit-scrollbar-thumb:hover { background: rgba(0, 229, 255, 0.55); }
 
-::-webkit-scrollbar-thumb:hover {
-  background: #4D94FF;
-}
-
-/* Particle background effect */
-.particles {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  z-index: 0;
-}
-
-.particle {
-  position: absolute;
-  width: 2px;
-  height: 2px;
-  /* background set in component */
-  border-radius: 50%;
-  animation: float 15s infinite;
-}
-
-@keyframes float {
-
-  0%,
-  100% {
-    transform: translateY(0) translateX(0);
-    opacity: 0;
-  }
-
-  10% {
-    opacity: 1;
-  }
-
-  90% {
-    opacity: 1;
-  }
-
-  100% {
-    transform: translateY(-100vh) translateX(100px);
-    opacity: 0;
-  }
-}
-
-/* Glassmorphism effect - Removed in favor of clean theme */
-/* .glass { ... } */
-
-/* Glow effect */
-.glow-primary {
-  box-shadow: 0 0 20px rgba(31, 119, 255, 0.5);
-}
-
-.glow-secondary {
-  box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
-}
-
-/* Smooth transitions */
-.transition-all {
-  transition: all 0.3s ease-in-out;
-}
-
-/* Section spacing */
+/* ── Section base ───────────────────────────────────────────────────────────── */
 section {
-  padding: 80px 20px;
+  position: relative;
+  padding: 96px 24px;
+  /* transparent so global canvas shows through */
+  background: transparent;
+}
+@media (max-width: 768px) {
+  section { padding: 72px 20px; }
+}
+
+/* ── Aurora border utility ──────────────────────────────────────────────────── */
+/* Applied to project cards and key containers on hover */
+.aurora-border {
   position: relative;
 }
-
-@media (max-width: 768px) {
-  section {
-    padding: 60px 20px;
-  }
+.aurora-border::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: linear-gradient(
+    135deg,
+    rgba(0, 229, 255, 0.0),
+    rgba(0, 229, 255, 0.5),
+    rgba(123, 47, 255, 0.5),
+    rgba(0, 229, 255, 0.0)
+  );
+  background-size: 300% 300%;
+  animation: auroraShift 3s ease-in-out infinite;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: -1;
+  pointer-events: none;
 }
+.aurora-border:hover::after {
+  opacity: 1;
+}
+
+@keyframes auroraShift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ── Section divider ────────────────────────────────────────────────────────── */
+.section-divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(0, 229, 255, 0.08) 20%,
+    rgba(0, 229, 255, 0.2) 50%,
+    rgba(0, 229, 255, 0.08) 80%,
+    transparent
+  );
+}
+
+/* ── Cyber Cursor blink ─────────────────────────────────────────────────────── */
+.cursor-blink {
+  display: inline-block;
+  width: 3px;
+  height: 1em;
+  background: #00E5FF;
+  vertical-align: middle;
+  margin-left: 2px;
+  animation: blink 0.9s step-end infinite;
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+/* ── Scanlines ──────────────────────────────────────────────────────────────── */
+.scanlines {
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.1) 2px,
+    rgba(0, 0, 0, 0.1) 4px
+  );
+  pointer-events: none;
+}
+
+/* ── Glow text utility ──────────────────────────────────────────────────────── */
+.glow-cyan-text  { text-shadow: 0 0 16px rgba(0,229,255,0.5); }
+.glow-cyan-box   { box-shadow:  0 0 20px rgba(0,229,255,0.2); }
+
+/* ── Perspective helper for 3D card tilt ────────────────────────────────────── */
+.perspective-1000 { perspective: 1000px; }
+
+/* ── Form input terminal style ──────────────────────────────────────────────── */
+.input-terminal {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(255,255,255,0.12);
+  border-radius: 0;
+  color: #F0F0F0;
+  font-family: 'Space Grotesk', sans-serif;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  outline: none;
+  width: 100%;
+  padding: 12px 4px;
+}
+.input-terminal:focus {
+  border-bottom-color: #00E5FF;
+  box-shadow: 0 2px 0 rgba(0,229,255,0.3);
+}
+.input-terminal::placeholder {
+  color: rgba(255,255,255,0.2);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+}
+
+/* ── Scan line (About image) ────────────────────────────────────────────────── */
+@keyframes scan {
+  0%   { top: 0%;   opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+.animate-scan { animation: scan 3s infinite linear; }

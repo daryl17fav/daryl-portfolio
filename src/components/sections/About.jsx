@@ -1,89 +1,127 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Download } from 'lucide-react';
 import SectionTitle from '../ui/SectionTitle';
-import { slideInLeft, slideInRight } from '../../utils/animations';
+import { slideInLeft, slideInRight, staggerContainer, staggerItem } from '../../utils/animations';
 
 const About = () => {
-    return (
-        <section id="about" className="py-20 bg-dark-lighter">
-            <div className="container mx-auto px-6">
-                <SectionTitle subtitle="Get to know me">
-                    About Me
-                </SectionTitle>
+    const stats = [
+        { label: 'Yrs Experience', value: '02+' },
+        { label: 'Projects Shipped', value: '10+' },
+        { label: 'Degree', value: 'B.Sc' },
+    ];
 
-                <div className="grid md:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
-                    {/* Profile Image */}
+    return (
+        <section id="about" className="py-24">
+            <div className="max-w-7xl mx-auto px-6">
+                <div className="flex flex-col lg:flex-row items-center gap-20">
+
+                    {/* ── LEFT: Profile Image ── */}
                     <motion.div
-                        className="relative"
+                        className="relative shrink-0"
                         initial="hidden"
                         whileInView="visible"
-                        viewport={{ once: true }}
+                        viewport={{ once: true, margin: '-80px' }}
                         variants={slideInLeft}
                     >
-                        <div className="relative w-full max-w-md mx-auto">
-                            <div className="aspect-square rounded-2xl overflow-hidden border-4 border-primary/30 shadow-lg shadow-primary/20">
-                                <img
-                                    src="/me-pic.jpg"
-                                    alt="Daryl"
-                                    className="w-full h-full object-cover"
-                                />
+                        {/* Outer frame */}
+                        <div className="absolute -inset-4 border border-[#00E5FF]/10 scale-95 group-hover:scale-100 transition-transform duration-700" />
+                        <div className="absolute -inset-1 border border-[#00E5FF]/20 opacity-0 hover:opacity-100 transition-opacity duration-700" />
+
+                        {/* Scan line */}
+                        <div className="absolute top-0 left-0 w-full h-[2px] bg-[#00E5FF] z-20 animate-scan"
+                            style={{ boxShadow: '0 0 12px rgba(0,229,255,0.8)' }}
+                        />
+
+                        {/* Image */}
+                        <div className="relative w-64 h-80 md:w-72 md:h-[420px] overflow-hidden border border-white/[0.07] grayscale hover:grayscale-0 transition-all duration-700">
+                            <img
+                                src="/me-pic.jpg"
+                                alt="Daryl Favour"
+                                className="w-full h-full object-cover"
+                            />
+                            {/* HUD overlay */}
+                            <div className="absolute inset-0 bg-gradient-to-t from-[#050505]/80 via-transparent to-transparent" />
+                            <div className="absolute bottom-4 left-4 font-mono text-[10px] text-[#00E5FF]/70 space-y-0.5">
+                                <p>ID: DF_992</p>
+                                <p>LOC: COTONOU, BN</p>
+                                <p>STATUS: <span className="text-[#00E5FF]">ACTIVE</span></p>
                             </div>
-                            {/* Decorative elements */}
-                            <div className="absolute -top-4 -right-4 w-24 h-24 bg-primary/20 rounded-full blur-2xl"></div>
-                            <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-secondary/20 rounded-full blur-2xl"></div>
                         </div>
+
+                        {/* Corner accents */}
+                        <div className="absolute -top-2 -left-2 w-5 h-5 border-t border-l border-[#00E5FF]/50" />
+                        <div className="absolute -bottom-2 -right-2 w-5 h-5 border-b border-r border-[#00E5FF]/50" />
                     </motion.div>
 
-                    {/* About Text */}
+                    {/* ── RIGHT: Bio ── */}
                     <motion.div
+                        className="flex-1 space-y-8"
                         initial="hidden"
                         whileInView="visible"
-                        viewport={{ once: true }}
+                        viewport={{ once: true, margin: '-80px' }}
                         variants={slideInRight}
-                        className="space-y-6"
                     >
-                        <p className="text-text-secondary text-lg leading-relaxed">
-                            I'm a <span className="text-primary font-semibold">Software Engineer</span> with
-                            a strong foundation in mobile and web development. Recently graduated with a Bachelor's in Software Engineering,
-                            I specialize in building performant applications using Flutter, Vue.js, and modern web technologies.
-                        </p>
+                        <SectionTitle eyebrow="// Identity_Manifest">
+                            Daryl Favour
+                        </SectionTitle>
 
-                        <p className="text-text-secondary text-lg leading-relaxed">
-                            Currently working as a <span className="text-secondary font-semibold">Mobile Developer</span> at Monniz,
-                            I focus on creating intuitive mobile experiences. My background includes full-stack internships where I've
-                            honed my skills in agile workflows, DevOps with Docker, and cloud deployments on AWS.
-                        </p>
-
-                        <p className="text-text-secondary text-lg leading-relaxed">
-                            Beyond coding, I have a creative side - managing social media strategies and photography.
-                            I'm passionate about bridging the gap between technical functionality and aesthetic design.
-                        </p>
-
-                        {/* Quick Stats */}
-                        <div className="grid grid-cols-2 md:grid-cols-3 gap-6 pt-6">
-                            <motion.div
-                                className="text-center"
-                                whileHover={{ scale: 1.05 }}
-                            >
-                                <div className="text-4xl font-bold text-primary mb-2">2+</div>
-                                <div className="text-text-secondary text-sm">Years Experience</div>
-                            </motion.div>
-                            <motion.div
-                                className="text-center"
-                                whileHover={{ scale: 1.05 }}
-                            >
-                                <div className="text-4xl font-bold text-secondary mb-2">10+</div>
-                                <div className="text-text-secondary text-sm">Projects Done</div>
-                            </motion.div>
-                            <motion.div
-                                className="text-center"
-                                whileHover={{ scale: 1.05 }}
-                            >
-                                <div className="text-4xl font-bold text-primary mb-2">BS</div>
-                                <div className="text-text-secondary text-sm">Software Engineering</div>
-                            </motion.div>
+                        <div className="space-y-5 text-[#6B7280] leading-relaxed text-[1.05rem] max-w-xl">
+                            <p>
+                                <span className="text-[#F0F0F0] font-medium italic">
+                                    "The future isn't coded; it's engineered."
+                                </span>
+                            </p>
+                            <p>
+                                I am a{' '}
+                                <span className="text-[#00E5FF]">Software Engineer</span>{' '}
+                                specialized in synthesizing high-performance mobile ecosystems and
+                                scalable web architectures. By merging the fluid precision of{' '}
+                                <span className="text-[#F0F0F0] border-b border-[#00E5FF]/30">Flutter</span>{' '}
+                                with the reactive power of Vue and Next.js, I build interfaces that
+                                bridge the gap between human intuition and machine efficiency.
+                            </p>
                         </div>
+
+                        {/* Stats */}
+                        <motion.div
+                            className="grid grid-cols-3 gap-6 pt-4"
+                            variants={staggerContainer}
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true }}
+                        >
+                            {stats.map(stat => (
+                                <motion.div
+                                    key={stat.label}
+                                    variants={staggerItem}
+                                    className="border-l border-[#00E5FF]/25 pl-4 hover:border-[#00E5FF]/70 transition-colors duration-300"
+                                >
+                                    <div className="text-3xl font-bold text-[#F0F0F0] tracking-tight"
+                                        style={{ textShadow: '0 0 20px rgba(0,229,255,0.2)' }}>
+                                        {stat.value}
+                                    </div>
+                                    <div className="text-[10px] uppercase tracking-widest text-[#00E5FF]/50 font-mono mt-1">
+                                        {stat.label}
+                                    </div>
+                                </motion.div>
+                            ))}
+                        </motion.div>
+
+                        {/* Download CTA */}
+                        <motion.div variants={staggerItem}>
+                            <a
+                                href="/daryll-cv.pdf"
+                                download
+                                className="group inline-flex items-center gap-3 px-6 py-3 border border-[#00E5FF]/30 text-[#00E5FF]/60 hover:text-[#050505] hover:border-[#00E5FF] font-mono text-sm uppercase tracking-widest transition-all duration-300 overflow-hidden relative"
+                            >
+                                <span className="absolute inset-0 bg-[#00E5FF] scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300" />
+                                <Download size={16} className="relative z-10" />
+                                <span className="relative z-10">Download Resume</span>
+                            </a>
+                        </motion.div>
                     </motion.div>
+
                 </div>
             </div>
         </section>

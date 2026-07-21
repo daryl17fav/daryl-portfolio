@@ -1,125 +1,219 @@
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { HiMenu, HiX, HiSun, HiMoon } from 'react-icons/hi';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-motion';
 
-const Navbar = ({ theme, toggleTheme }) => {
-    const [isOpen, setIsOpen] = useState(false);
-    const [scrolled, setScrolled] = useState(false);
+// ─── Constants ────────────────────────────────────────────────────────────────
+const GLITCH_CHARS = '!@#$%^&*<>[]{}|/\\~`?ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 
-    useEffect(() => {
-        const handleScroll = () => {
-            setScrolled(window.scrollY > 50);
-        };
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
+// ─── NavLinkItem (defined BEFORE Navbar to avoid no-undef) ───────────────────
+const NavLinkItem = ({ link, index, onClick }) => {
+  const spanRef    = useRef(null);
+  const intervalRef = useRef(null);
 
-    const navLinks = [
-        { name: 'Home', href: '#home' },
-        { name: 'About', href: '#about' },
-        { name: 'Skills', href: '#skills' },
-        { name: 'Projects', href: '#projects' },
-        { name: 'Experience', href: '#experience' },
-        { name: 'Education', href: '#education' },
-        { name: 'Contact', href: '#contact' },
-    ];
+  const triggerGlitch = () => {
+    if (!spanRef.current) return;
+    const original = link.name;
+    let itr = 0;
+    clearInterval(intervalRef.current);
+    intervalRef.current = setInterval(() => {
+      spanRef.current.textContent = original
+        .split('')
+        .map((ch, idx) => {
+          if (ch === ' ') return ' ';
+          if (idx < itr) return original[idx];
+          return GLITCH_CHARS[Math.floor(Math.random() * GLITCH_CHARS.length)];
+        })
+        .join('');
+      itr += 0.6;
+      if (itr >= original.length) {
+        spanRef.current.textContent = original;
+        clearInterval(intervalRef.current);
+      }
+    }, 38);
+  };
 
-    const scrollToSection = (href) => {
-        const element = document.querySelector(href);
-        if (element) {
-            element.scrollIntoView({ behavior: 'smooth' });
-            setIsOpen(false);
-        }
+  useEffect(() => () => clearInterval(intervalRef.current), []);
+
+  return (
+    <motion.button
+      onClick={() => onClick(link.href)}
+      onHoverStart={triggerGlitch}
+      className="group relative flex items-center gap-1.5 text-[#6B7280] hover:text-[#00E5FF] transition-colors duration-200 cursor-pointer"
+      initial={{ opacity: 0, y: -15 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.3 + index * 0.08, type: 'spring', stiffness: 200 }}
+    >
+      <span className="text-[#00E5FF]/20 group-hover:text-[#00E5FF]/60 font-mono text-xs transition-colors duration-200">
+        ./
+      </span>
+      <span ref={spanRef} className="font-mono text-sm tracking-widest uppercase">
+        {link.name}
+      </span>
+      <motion.span className="absolute -bottom-1 left-0 h-px bg-[#00E5FF] w-0 group-hover:w-full"
+        transition={{ duration: 0.25 }}
+      />
+    </motion.button>
+  );
+};
+
+// ─── Navbar ───────────────────────────────────────────────────────────────────
+const Navbar = () => {
+  const [isOpen,   setIsOpen]   = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [cmdTime,  setCmdTime]  = useState('');
+  const { scrollY } = useScroll();
+
+  useMotionValueEvent(scrollY, 'change', (v) => setScrolled(v > 60));
+
+  useEffect(() => {
+    const tick = () => {
+      const n  = new Date();
+      const hh = String(n.getHours()).padStart(2, '0');
+      const mm = String(n.getMinutes()).padStart(2, '0');
+      const ss = String(n.getSeconds()).padStart(2, '0');
+      setCmdTime(`${hh}:${mm}:${ss}`);
     };
+    tick();
+    const id = setInterval(tick, 1000);
+    return () => clearInterval(id);
+  }, []);
 
-    return (
-        <motion.nav
-            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled
-                ? 'bg-bg-default/80 dark:bg-bg-dark/80 backdrop-blur-md shadow-md py-4'
-                : 'bg-transparent py-6'
-                }`}
-            initial={{ y: -100 }}
-            animate={{ y: 0 }}
-            transition={{ duration: 0.6 }}
-        >
-            <div className="container mx-auto px-6 flex justify-between items-center">
-                {/* Logo */}
-                <motion.div
-                    className="text-2xl font-bold text-text-primary dark:text-text-primary-dark"
-                    whileHover={{ scale: 1.05 }}
+  const navLinks = [
+    { name: 'About',      href: '#about'      },
+    { name: 'Skills',     href: '#skills'     },
+    { name: 'Projects',   href: '#projects'   },
+    { name: 'Experience', href: '#experience' },
+    { name: 'Contact',    href: '#contact'    },
+  ];
+
+  const scrollToSection = (href) => {
+    document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
+    setIsOpen(false);
+  };
+
+  return (
+    <motion.nav
+      className="fixed top-4 left-1/2 z-50 w-[95%] max-w-5xl"
+      style={{ x: '-50%' }}
+      initial={{ y: -100, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.7, ease: 'easeOut', delay: 0.1 }}
+    >
+      {/* Floating command bar */}
+      <div
+        className={`relative border transition-all duration-500 ${
+          scrolled
+            ? 'border-[#00E5FF]/30 bg-[#050505]/85 backdrop-blur-xl'
+            : 'border-white/[0.06] bg-[#050505]/60 backdrop-blur-md'
+        }`}
+        style={scrolled ? { boxShadow: '0 0 30px rgba(0,229,255,0.06)' } : {}}
+      >
+        {/* Top accent line */}
+        <div className="absolute top-0 left-0 right-0 h-px bg-[#00E5FF]/30" />
+
+        <div className="flex items-center justify-between px-5 py-3">
+          {/* Logo / Prompt */}
+          <motion.div className="flex items-center gap-2" whileHover={{ scale: 1.02 }}>
+            <span className="font-mono text-xs tracking-widest">
+              <span className="text-[#00E5FF]/30">root@</span>
+              <span className="text-[#00E5FF] font-bold">daryl</span>
+              <span className="text-[#00E5FF]/30">:~$</span>
+            </span>
+            <motion.span
+              className="inline-block w-2 h-4 bg-[#00E5FF]"
+              animate={{ opacity: [1, 0, 1] }}
+              transition={{ duration: 0.9, repeat: Infinity }}
+            />
+          </motion.div>
+
+          {/* Desktop Links */}
+          <div className="hidden md:flex items-center gap-8">
+            {navLinks.map((link, i) => (
+              <NavLinkItem key={link.name} link={link} index={i} onClick={scrollToSection} />
+            ))}
+          </div>
+
+          {/* Clock / Status */}
+          <div className="hidden md:flex items-center gap-3">
+            <motion.span
+              className="inline-block w-2 h-2 rounded-full bg-[#00E5FF]"
+              animate={{ opacity: [1, 0.2, 1], scale: [1, 0.8, 1] }}
+              transition={{ duration: 1.5, repeat: Infinity }}
+            />
+            <span className="font-mono text-[10px] text-[#00E5FF]/40 tracking-widest">
+              {cmdTime}
+            </span>
+          </div>
+
+          {/* Mobile Hamburger */}
+          <button
+            className="md:hidden flex flex-col gap-1.5 p-2 border border-[#00E5FF]/20 hover:border-[#00E5FF]/60 transition-colors duration-200"
+            onClick={() => setIsOpen(o => !o)}
+            aria-label="Toggle menu"
+          >
+            <motion.span className="block w-5 h-px bg-[#00E5FF]"
+              animate={isOpen ? { rotate: 45, y: 6 } : { rotate: 0, y: 0 }}
+              transition={{ duration: 0.2 }}
+            />
+            <motion.span className="block w-5 h-px bg-[#00E5FF]"
+              animate={isOpen ? { opacity: 0 } : { opacity: 1 }}
+              transition={{ duration: 0.15 }}
+            />
+            <motion.span className="block w-5 h-px bg-[#00E5FF]"
+              animate={isOpen ? { rotate: -45, y: -6 } : { rotate: 0, y: 0 }}
+              transition={{ duration: 0.2 }}
+            />
+          </button>
+        </div>
+
+        {/* Bottom faint line */}
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-[#00E5FF]/10" />
+      </div>
+
+      {/* Mobile Drawer */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            className="md:hidden mt-1 border border-[#00E5FF]/15 bg-[#050505]/95 backdrop-blur-xl overflow-hidden"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease: 'easeInOut' }}
+          >
+            <div className="flex flex-col p-4 gap-1">
+              <p className="font-mono text-[10px] text-[#00E5FF]/25 tracking-widest mb-3 border-b border-white/[0.04] pb-2">
+                // NAVIGATION_MENU :: LOADED
+              </p>
+              {navLinks.map((link, i) => (
+                <motion.button
+                  key={link.name}
+                  onClick={() => scrollToSection(link.href)}
+                  className="group flex items-center gap-3 p-3 hover:bg-[#00E5FF]/[0.03] border border-transparent hover:border-[#00E5FF]/15 transition-all duration-200"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: i * 0.06 }}
                 >
-                    <img src="/logo2.png" alt="Logo" className="h-16 w-auto object-contain" />
-                </motion.div>
-
-                {/* Desktop Navigation */}
-                <div className="hidden md:flex items-center gap-8">
-                    {navLinks.map((link, index) => (
-                        <motion.button
-                            key={link.name}
-                            onClick={() => scrollToSection(link.href)}
-                            className="text-text-secondary dark:text-text-secondary-dark hover:text-primary dark:hover:text-primary-dark cursor-pointer transition-colors duration-300"
-                            whileHover={{ scale: 1.1 }}
-                            initial={{ opacity: 0, y: -20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: index * 0.1 }}
-                        >
-                            {link.name}
-                        </motion.button>
-                    ))}
-
-                    {/* Theme Toggle */}
-                    <motion.button
-                        onClick={toggleTheme}
-                        className="text-2xl text-text-primary dark:text-text-primary-dark hover:text-primary dark:hover:text-primary-dark transition-colors duration-300"
-                        whileHover={{ scale: 1.1, rotate: 180 }}
-                        initial={{ opacity: 0, x: 20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: 0.8 }}
-                    >
-                        {theme === 'dark' ? <HiSun /> : <HiMoon />}
-                    </motion.button>
-                </div>
-
-                {/* Mobile Menu Button */}
-                <div className="md:hidden flex items-center gap-4">
-                    <button
-                        onClick={toggleTheme}
-                        className="text-2xl text-text-primary dark:text-text-primary-dark hover:text-primary transition-colors"
-                    >
-                        {theme === 'dark' ? <HiSun /> : <HiMoon />}
-                    </button>
-                    <button
-                        className="text-3xl text-primary dark:text-primary-dark"
-                        onClick={() => setIsOpen(!isOpen)}
-                    >
-                        {isOpen ? <HiX /> : <HiMenu />}
-                    </button>
-                </div>
+                  <span className="font-mono text-[10px] text-[#00E5FF]/25 w-6">
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                  <span className="font-mono text-sm text-[#6B7280] group-hover:text-[#00E5FF] tracking-widest uppercase transition-colors duration-200">
+                    {link.name}
+                  </span>
+                </motion.button>
+              ))}
+              <p className="font-mono text-[10px] text-[#00E5FF]/25 tracking-widest mt-3 border-t border-white/[0.04] pt-2 flex items-center gap-2">
+                <motion.span
+                  className="inline-block w-1.5 h-1.5 rounded-full bg-[#00E5FF]"
+                  animate={{ opacity: [1, 0, 1] }}
+                  transition={{ duration: 1, repeat: Infinity }}
+                />
+                {cmdTime} — SYSTEM_ONLINE
+              </p>
             </div>
-
-            {/* Mobile Navigation */}
-            {isOpen && (
-                <motion.div
-                    className="md:hidden bg-bg-default dark:bg-bg-dark shadow-lg absolute top-full left-0 right-0 border-t border-gray-200 dark:border-gray-800"
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: 'auto' }}
-                    exit={{ opacity: 0, height: 0 }}
-                >
-                    <div className="flex flex-col gap-4 p-6">
-                        {navLinks.map((link) => (
-                            <button
-                                key={link.name}
-                                onClick={() => scrollToSection(link.href)}
-                                className="text-text-secondary dark:text-text-secondary-dark hover:text-primary dark:hover:text-primary-dark cursor-pointer transition-colors duration-300 text-lg text-left w-full"
-                            >
-                                {link.name}
-                            </button>
-                        ))}
-                    </div>
-                </motion.div>
-            )}
-        </motion.nav>
-    );
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.nav>
+  );
 };
 
 export default Navbar;

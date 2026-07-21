@@ -1,194 +1,200 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FaLinkedin, FaGithub, FaWhatsapp, FaTwitter } from 'react-icons/fa';
-import { HiMail, HiPhone, HiLocationMarker } from 'react-icons/hi';
+import { Mail, Phone, MapPin } from 'lucide-react';
 import SectionTitle from '../ui/SectionTitle';
-import Button from '../ui/Button';
-import { fadeUp, staggerContainer, staggerItem } from '../../utils/animations';
+import { slideUpStagger, staggerItem, slideInLeft, slideInRight } from '../../utils/animations';
 
 const Contact = () => {
-    const [formData, setFormData] = useState({
-        name: '',
-        email: '',
-        message: '',
-    });
-
-    const [errors, setErrors] = useState({});
+    const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+    const [errors,   setErrors]   = useState({});
+    const [sent,     setSent]     = useState(false);
 
     const socialLinks = [
-        { icon: <FaTwitter />, href: 'https://x.com/DarylFav3802', label: 'Twitter', color: '#1DA1F2' },
-        { icon: <FaLinkedin />, href: 'https://linkedin.com/in/daryle-favour-m-i-3b3b37290', label: 'LinkedIn', color: '#0077B5' },
-        { icon: <FaGithub />, href: 'https://github.com/daryl17fav', label: 'GitHub', color: '#333' },
-        { icon: <FaWhatsapp />, href: 'https://wa.me/22944440251', label: 'WhatsApp', color: '#25D366' },
+        { icon: <FaTwitter />,  href: 'https://x.com/DarylFav3802',                            label: 'Twitter'   },
+        { icon: <FaLinkedin />, href: 'https://linkedin.com/in/daryle-favour-m-i-3b3b37290',    label: 'LinkedIn'  },
+        { icon: <FaGithub />,   href: 'https://github.com/daryl17fav',                          label: 'GitHub'    },
+        { icon: <FaWhatsapp />, href: 'https://wa.me/2290163035022',                            label: 'WhatsApp'  },
     ];
 
     const contactInfo = [
-        { icon: <HiMail />, label: 'Email', value: 'muaikeidarylfav@gmail.com' },
-        { icon: <HiPhone />, label: 'Phone', value: '+229 44 44 02 51 / +229 69 01 20 12' },
-        { icon: <HiLocationMarker />, label: 'Location', value: 'Cotonou, Benin' },
+        { icon: <Mail size={16} />,     label: 'Email',    value: 'muaikeidarylfav@gmail.com'          },
+        { icon: <Phone size={16} />,    label: 'Phone',    value: '+229 01 97 05 34 30'                 },
+        { icon: <MapPin size={16} />,   label: 'Location', value: 'Cotonou, Benin'                     },
     ];
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData((prev) => ({ ...prev, [name]: value }));
-        // Clear error when user starts typing
-        if (errors[name]) {
-            setErrors((prev) => ({ ...prev, [name]: '' }));
-        }
+        setFormData(p => ({ ...p, [name]: value }));
+        if (errors[name]) setErrors(p => ({ ...p, [name]: '' }));
     };
 
-    const validateForm = () => {
-        const newErrors = {};
-        if (!formData.name.trim()) newErrors.name = 'Name is required';
-        if (!formData.email.trim()) {
-            newErrors.email = 'Email is required';
-        } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-            newErrors.email = 'Email is invalid';
-        }
-        if (!formData.message.trim()) newErrors.message = 'Message is required';
-        return newErrors;
+    const validate = () => {
+        const e = {};
+        if (!formData.name.trim())    e.name    = 'Name is required';
+        if (!formData.email.trim())   e.email   = 'Email is required';
+        else if (!/\S+@\S+\.\S+/.test(formData.email)) e.email = 'Email is invalid';
+        if (!formData.message.trim()) e.message = 'Message is required';
+        return e;
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const newErrors = validateForm();
-        if (Object.keys(newErrors).length === 0) {
-            // Form is valid, submit it
-            console.log('Form submitted:', formData);
-            alert('Thank you for your message! I\'ll get back to you soon.');
+        const errs = validate();
+        if (Object.keys(errs).length === 0) {
+            setSent(true);
             setFormData({ name: '', email: '', message: '' });
+            setTimeout(() => setSent(false), 4000);
         } else {
-            setErrors(newErrors);
+            setErrors(errs);
         }
     };
 
     return (
-        <section id="contact" className="py-20">
-            <div className="container mx-auto px-6">
-                <SectionTitle subtitle="Let's work together">
+        <section id="contact" className="py-24">
+            <div className="max-w-6xl mx-auto px-6">
+                <SectionTitle eyebrow="// Establish_Connection">
                     Get In Touch
                 </SectionTitle>
 
-                <div className="grid md:grid-cols-2 gap-12 max-w-6xl mx-auto">
-                    {/* Contact Info */}
+                <div className="grid md:grid-cols-2 gap-16">
+
+                    {/* ── LEFT: Info ── */}
                     <motion.div
+                        className="space-y-10"
+                        variants={slideInLeft}
                         initial="hidden"
                         whileInView="visible"
-                        viewport={{ once: true }}
-                        variants={staggerContainer}
-                        className="space-y-8"
+                        viewport={{ once: true, margin: '-60px' }}
                     >
-                        <motion.div variants={staggerItem}>
-                            <h3 className="text-2xl font-bold mb-6 text-text-primary dark:text-text-primary-dark">Contact Information</h3>
-                            <div className="space-y-4">
-                                {contactInfo.map((info, index) => (
-                                    <motion.div
-                                        key={info.label}
-                                        className="flex items-center gap-4"
-                                        variants={staggerItem}
-                                    >
-                                        <div className="bg-primary/20 p-3 rounded-lg">
-                                            <div className="text-2xl text-primary">{info.icon}</div>
-                                        </div>
-                                        <div>
-                                            <p className="text-text-secondary dark:text-text-secondary-dark text-sm">{info.label}</p>
-                                            <p className="text-text-primary dark:text-text-primary-dark font-semibold">{info.value}</p>
-                                        </div>
-                                    </motion.div>
-                                ))}
-                            </div>
-                        </motion.div>
+                        {/* Contact rows */}
+                        <div className="space-y-5">
+                            <p className="font-mono text-[10px] uppercase tracking-[0.35em] text-[#00E5FF]/40 mb-5">
+                                // Contact_Info
+                            </p>
+                            {contactInfo.map(info => (
+                                <div key={info.label} className="flex items-center gap-4 group">
+                                    <div className="p-2.5 border border-[#00E5FF]/15 group-hover:border-[#00E5FF]/50 transition-colors duration-300 text-[#00E5FF]/50 group-hover:text-[#00E5FF]">
+                                        {info.icon}
+                                    </div>
+                                    <div>
+                                        <p className="font-mono text-[10px] text-[#6B7280] tracking-widest uppercase">
+                                            {info.label}
+                                        </p>
+                                        <p className="text-[#F0F0F0] text-sm font-medium">{info.value}</p>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
 
-                        {/* Social Links */}
-                        <motion.div variants={staggerItem}>
-                            <h3 className="text-xl font-bold mb-4 text-text-primary dark:text-text-primary-dark">Connect With Me</h3>
-                            <div className="flex gap-4">
-                                {socialLinks.map((social) => (
+                        {/* Social icons */}
+                        <div>
+                            <p className="font-mono text-[10px] uppercase tracking-[0.35em] text-[#00E5FF]/40 mb-5">
+                                // Connect
+                            </p>
+                            <motion.div
+                                className="flex gap-3"
+                                variants={slideUpStagger}
+                                initial="hidden"
+                                whileInView="visible"
+                                viewport={{ once: true }}
+                            >
+                                {socialLinks.map(s => (
                                     <motion.a
-                                        key={social.label}
-                                        href={social.href}
+                                        key={s.label}
+                                        href={s.href}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="bg-bg-paper dark:bg-bg-paper-dark border border-gray-200 dark:border-gray-700 p-4 rounded-lg text-3xl text-text-secondary dark:text-text-secondary-dark hover:text-primary dark:hover:text-primary-dark transition-colors duration-300"
-                                        whileHover={{
-                                            scale: 1.1,
-                                            boxShadow: '0 0 20px rgba(31, 119, 255, 0.3)',
-                                        }}
-                                        aria-label={social.label}
+                                        aria-label={s.label}
+                                        variants={staggerItem}
+                                        className="p-3.5 border border-white/[0.08] text-[#6B7280] hover:text-[#00E5FF] hover:border-[#00E5FF]/40 transition-all duration-300 text-xl"
+                                        style={{ background: 'rgba(255,255,255,0.02)' }}
+                                        whileHover={{ y: -3, boxShadow: '0 0 20px rgba(0,229,255,0.15)' }}
                                     >
-                                        {social.icon}
+                                        {s.icon}
                                     </motion.a>
                                 ))}
-                            </div>
-                        </motion.div>
+                            </motion.div>
+                        </div>
                     </motion.div>
 
-                    {/* Contact Form */}
+                    {/* ── RIGHT: Form ── */}
                     <motion.div
+                        variants={slideInRight}
                         initial="hidden"
                         whileInView="visible"
-                        viewport={{ once: true }}
-                        variants={fadeUp}
+                        viewport={{ once: true, margin: '-60px' }}
                     >
-                        <form onSubmit={handleSubmit} className="space-y-6">
-                            {/* Name Field */}
+                        <form onSubmit={handleSubmit} className="space-y-8">
+                            {/* Name */}
                             <div>
-                                <label htmlFor="name" className="block text-text-primary dark:text-text-primary-dark font-semibold mb-2">
-                                    Name
+                                <label className="block font-mono text-[10px] tracking-[0.35em] text-[#00E5FF]/50 uppercase mb-3">
+                                    // Name
                                 </label>
                                 <input
                                     type="text"
-                                    id="name"
                                     name="name"
                                     value={formData.name}
                                     onChange={handleChange}
-                                    className={`w-full px-4 py-3 bg-bg-paper dark:bg-bg-paper-dark border-2 ${errors.name ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
-                                        } rounded-lg focus:outline-none focus:border-primary dark:focus:border-primary-dark transition-colors duration-300 text-text-primary dark:text-text-primary-dark placeholder:text-text-secondary dark:placeholder:text-text-secondary-dark`}
-                                    placeholder="Your Name"
+                                    placeholder="Your name"
+                                    className="input-terminal"
+                                    style={errors.name ? { borderBottomColor: 'rgba(239,68,68,0.6)' } : {}}
                                 />
-                                {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
+                                {errors.name && (
+                                    <p className="font-mono text-[10px] text-red-400/80 mt-2">{errors.name}</p>
+                                )}
                             </div>
 
-                            {/* Email Field */}
+                            {/* Email */}
                             <div>
-                                <label htmlFor="email" className="block text-text-primary dark:text-text-primary-dark font-semibold mb-2">
-                                    Email
+                                <label className="block font-mono text-[10px] tracking-[0.35em] text-[#00E5FF]/50 uppercase mb-3">
+                                    // Email
                                 </label>
                                 <input
                                     type="email"
-                                    id="email"
                                     name="email"
                                     value={formData.email}
                                     onChange={handleChange}
-                                    className={`w-full px-4 py-3 bg-bg-paper dark:bg-bg-paper-dark border-2 ${errors.email ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
-                                        } rounded-lg focus:outline-none focus:border-primary dark:focus:border-primary-dark transition-colors duration-300 text-text-primary dark:text-text-primary-dark placeholder:text-text-secondary dark:placeholder:text-text-secondary-dark`}
-                                    placeholder="your.email@example.com"
+                                    placeholder="your@email.com"
+                                    className="input-terminal"
+                                    style={errors.email ? { borderBottomColor: 'rgba(239,68,68,0.6)' } : {}}
                                 />
-                                {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
+                                {errors.email && (
+                                    <p className="font-mono text-[10px] text-red-400/80 mt-2">{errors.email}</p>
+                                )}
                             </div>
 
-                            {/* Message Field */}
+                            {/* Message */}
                             <div>
-                                <label htmlFor="message" className="block text-text-primary dark:text-text-primary-dark font-semibold mb-2">
-                                    Message
+                                <label className="block font-mono text-[10px] tracking-[0.35em] text-[#00E5FF]/50 uppercase mb-3">
+                                    // Message
                                 </label>
                                 <textarea
-                                    id="message"
                                     name="message"
                                     value={formData.message}
                                     onChange={handleChange}
-                                    rows="5"
-                                    className={`w-full px-4 py-3 bg-bg-paper dark:bg-bg-paper-dark border-2 ${errors.message ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
-                                        } rounded-lg focus:outline-none focus:border-primary dark:focus:border-primary-dark transition-colors duration-300 text-text-primary dark:text-text-primary-dark placeholder:text-text-secondary dark:placeholder:text-text-secondary-dark resize-none`}
+                                    rows={5}
                                     placeholder="Your message..."
+                                    className="input-terminal resize-none"
+                                    style={errors.message ? { borderBottomColor: 'rgba(239,68,68,0.6)' } : {}}
                                 />
-                                {errors.message && <p className="text-red-500 text-sm mt-1">{errors.message}</p>}
+                                {errors.message && (
+                                    <p className="font-mono text-[10px] text-red-400/80 mt-2">{errors.message}</p>
+                                )}
                             </div>
 
-                            {/* Submit Button */}
-                            <Button type="submit" variant="primary" className="w-full">
-                                Send Message
-                            </Button>
+                            {/* Submit */}
+                            <motion.button
+                                type="submit"
+                                className="group relative w-full py-4 font-mono text-sm tracking-widest uppercase overflow-hidden bg-[#00E5FF] text-[#050505] font-bold hover:shadow-[0_0_30px_rgba(0,229,255,0.4)] transition-shadow duration-300"
+                                whileHover={{ scale: 1.01 }}
+                                whileTap={{ scale: 0.99 }}
+                            >
+                                <span className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                                <span className="relative z-10">
+                                    {sent ? '// Message Sent ✓' : '// Send Message'}
+                                </span>
+                            </motion.button>
                         </form>
                     </motion.div>
                 </div>
